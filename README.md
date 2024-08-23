@@ -103,12 +103,27 @@ clusterodm.exe
 ```
 
 ## HPC set up with SLURM
-
+### SLURM Requirement
 You can write a SLURM script to schedule and set up available nodes with NodeODM for the ClusterODM to be wired to if you are on the HPC. Using SLURM will decrease the amount of time and processes needed to set up nodes for ClusterODM each time. This provides an easier way for user to use ODM on the HPC.
 
 To setup HPC with SLURM, you must make sure SLURM is installed.
 
 SLURM script will be different from cluster to cluster, depending on which nodes in the cluster that you have. However, the main idea is we want to run NodeODM on each node once, and by default, each NodeODM will be running on port 3000. Apptainer will be taking available ports starting from port 3000, so if your node's port 3000 is open, by default NodeODM will be run on that node. After that, we want to run ClusterODM on the head node and connect the running NodeODMs to the ClusterODM. With that, we will have a functional ClusterODM running on HPC.
+
+### Get latest apptainer (singularity) NodeODM image
+ ```
+cd $HOME
+cd ODM/NodeODM/
+apptainer pull --force --disable-cache docker://opendronemap/nodeodm:latest
+```
+
+### Get latest apptainer (singularity) ClusterODM image
+```
+cd $HOME
+cd ODM/NodeODM/
+apptainer pull --force --disable-cache docker://opendronemap/clusterodm:latest
+```
+### SLURM example
 
 Here is an example of SLURM script assigning nodes 48, 50, 51 to run NodeODM. You can freely change and use it depending on your system:
 
